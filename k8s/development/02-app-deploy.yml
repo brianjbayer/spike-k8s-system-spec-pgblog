@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgblog
+  namespace: pgblog
+spec:
+  selector:
+    app: pgblog
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgblog
+  namespace: pgblog
+spec:
+  selector:
+    matchLabels:
+      app: pgblog
+  template:
+    metadata:
+      labels:
+        app: pgblog
+    spec:
+      containers:
+        - name: pgblog
+          image: pgblogdev
+          imagePullPolicy: Never
+          env:
+            - name: RAILS_ENV
+              value: development
+            - name: DATABASE_URL
+              value: postgresql://pgblog@postgres.pgblog.svc.cluster.local:5432/pgblog 
+          volumeMounts:
+            - mountPath: /app
+              name: app-source
+      volumes:
+        - name: app-source
+          hostPath:
+            path: /Users/brianbayer/Lex/learning/syststrails/pgblog
+            type: Directory
