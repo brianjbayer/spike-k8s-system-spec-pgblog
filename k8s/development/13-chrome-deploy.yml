@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: selenium-chrome
+  namespace: pgblog
+spec:
+  selector:
+    app: selenium-chrome
+  ports:
+    - name: web
+      protocol: TCP
+      port: 4444
+      targetPort: 4444
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: selenium-chrome
+  namespace: pgblog
+spec:
+  selector:
+    matchLabels:
+      app: selenium-chrome
+  template:
+    metadata:
+      labels:
+        app: selenium-chrome
+    spec:
+      containers:
+        - name: selenium-chrome
+          image: selenium/standalone-chrome
+          ports:
+            - containerPort: 4444
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /dev/shm
+              name: extended-mem
+      volumes:
+        - name: extended-mem
+          hostPath:
+            path: /dev/shm
