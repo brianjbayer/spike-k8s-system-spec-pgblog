@@ -14,6 +14,24 @@ spec:
 
 ---
 
+apiVersion: v1
+kind: Service
+metadata:
+  name: selenium-chrome-vnc
+  namespace: pgblog
+spec:
+  selector:
+    app: selenium-chrome
+  ports:
+    - name: vnc
+      protocol: TCP
+      port: 5900
+      targetPort: 5900
+      nodePort: 30590
+  type: NodePort
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,9 +48,11 @@ spec:
     spec:
       containers:
         - name: selenium-chrome
-          image: selenium/standalone-chrome
+          image: selenium/standalone-chrome-debug
           ports:
             - containerPort: 4444
+              protocol: TCP
+            - containerPort: 5900
               protocol: TCP
           volumeMounts:
             - mountPath: /dev/shm
@@ -41,3 +61,4 @@ spec:
         - name: extended-mem
           hostPath:
             path: /dev/shm
+
