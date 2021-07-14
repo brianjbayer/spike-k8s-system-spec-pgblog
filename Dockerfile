@@ -32,7 +32,5 @@ RUN apt update && apt install -y git vim
 # Keep it alive in (k8s, docker-compose)
 CMD tail -f /dev/null
 
-## Thar be dragons
-#CMD bin/rails server --port 3000 --binding 0.0.0.0
-# This is the command start rails in the container but...
+# This is the command start rails in the container (e.g. production)...
 #CMD bundle exec rails s -b 0.0.0.0
