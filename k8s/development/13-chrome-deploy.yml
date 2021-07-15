@@ -54,6 +54,22 @@ spec:
               protocol: TCP
             - containerPort: 5900
               protocol: TCP
+          resources:
+            limits:
+              memory: "1000Mi"
+              cpu: ".5"
+          livenessProbe:
+            httpGet:
+              path: /wd/hub/status
+              port: 4444
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /wd/hub/status
+              port: 4444
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
           volumeMounts:
             - mountPath: /dev/shm
               name: extended-mem
