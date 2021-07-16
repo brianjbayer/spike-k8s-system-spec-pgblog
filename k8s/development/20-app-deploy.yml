@@ -38,7 +38,7 @@ spec:
             - name: RAILS_LOG_TO_STDOUT
               value: enabled
             - name: DATABASE_URL
-              value: postgresql://pgblog@postgres.pgblog.svc.cluster.local:5432/pgblog
+              value: postgresql://pgblog:banana@postgres.pgblog.svc.cluster.local:5432/pgblog
             - name: SELENIUM_REMOTE
               value: http://selenium-chrome.pgblog.svc.cluster.local:4444/wd/hub
             - name: SELENIUM_BROWSER
